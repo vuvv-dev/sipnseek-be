@@ -42,13 +42,12 @@ export const generateDocumentHtmlToPdfDemo = async (
       additionalInfo,
       imageUrl,
     });
-    
-    process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
+    const executablePath = puppeteer.executablePath();
     // Tạo trình duyệt Puppeteer và chuyển đổi HTML thành PDF
     const browser = await puppeteer.launch({
       headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      executablePath: '/opt/render/.cache/puppeteer/chrome-headless-shell/linux-129.0.6668.100/chrome-headless-shell-linux64/chrome-headless-shell' ,
+      // executablePath: executablePath,
       timeout: 60000,
     });
 
