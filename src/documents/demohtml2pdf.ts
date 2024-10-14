@@ -48,7 +48,7 @@ export const generateDocumentHtmlToPdfDemo = async (
     const browser = await puppeteer.launch({
       headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      executablePath: '/opt/render/.cache/puppeteer/chrome-linux/chrome' ,
+      executablePath: '/opt/render/.cache/puppeteer/chrome-headless-shell/linux-129.0.6668.100/chrome-headless-shell-linux64/chrome-headless-shell' ,
       timeout: 60000,
     });
 
