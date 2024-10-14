@@ -5,7 +5,6 @@ import puppeteer from "puppeteer";
 import path from "path";
 import { ErrorType } from "../middlewares/errorHandler";
 import { pad } from "lodash";
-
 // Hàm để tạo file PDF
 export const generateDocumentHtmlToPdfDemo = async (
   req: Request,
@@ -43,13 +42,19 @@ export const generateDocumentHtmlToPdfDemo = async (
       additionalInfo,
       imageUrl,
     });
-
+    
+    process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
     // Tạo trình duyệt Puppeteer và chuyển đổi HTML thành PDF
     const browser = await puppeteer.launch({
       headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath: '/opt/render/.cache/puppeteer/chrome-linux/chrome' ,
       timeout: 60000,
     });
+
+    console.log("Starting Puppeteer...");
+    console.log(await browser.version());
+
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "load" });
 
