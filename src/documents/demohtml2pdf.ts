@@ -46,6 +46,13 @@ export const generateDocumentHtmlToPdfDemo = async (
      // Tạo trình duyệt Puppeteer và chuyển đổi HTML thành PDF
      const browser = await puppeteer.launch({
        headless: true,
+       args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--single-process',
+        '--no-zygote'
+      ],
      });
      const page = await browser.newPage();
      await page.setContent(htmlContent, { waitUntil: "load" });
@@ -69,7 +76,8 @@ export const generateDocumentHtmlToPdfDemo = async (
      res.end(pdfBuffer); // Sử dụng res.end() để gửi trực tiếp buffer PDF
 
   } catch (error) {
-    const err: ErrorType = new Error("Something went wrong");
+    console.error("Detailed Error:", error);
+    const err: ErrorType = new Error("Something went wrong while generating the PDF");
     err.status = 400;
     next(err);
   }
