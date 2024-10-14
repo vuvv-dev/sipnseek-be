@@ -1,17 +1,17 @@
 require("dotenv").config();
 
-import { ErrorType } from "./src/middlewares/errorHandler";
+import { ErrorType } from "./middlewares/errorHandler";
 import express from "express";
 import cors from "cors";
-import { errorHandler } from "./src/middlewares/errorHandler";
-import { connectDB } from "./src/configurations/mongoContext";
+import { errorHandler } from "./middlewares/errorHandler";
+import { connectDB } from "./configurations/mongoContext";
 
-import welcome from "./src/routes/welcome";
-import electrocardiogramRoute from "./src/routes/electrocardiogramRoute";
-import echocardiogramphyRoute from "./src/routes/echocardiogramphyRoute";
-import abdominalUltrasoundRoute from "./src/routes/abdominalUtrasoundRoute";
-import thyroidUltrasoundRoute from "./src/routes/thyroidUltrasoundRoute";
-import demoHtmlToPdf from './src/routes/demoHtmlToPdf'
+import welcome from "./routes/welcome";
+import electrocardiogramRoute from "./routes/electrocardiogramRoute";
+import echocardiogramphyRoute from "./routes/echocardiogramphyRoute";
+import abdominalUltrasoundRoute from "./routes/abdominalUtrasoundRoute";
+import thyroidUltrasoundRoute from "./routes/thyroidUltrasoundRoute";
+import demoHtmlToPdf from './routes/demoHtmlToPdf'
 //connect db
 connectDB();
 //create server

@@ -2,15 +2,21 @@
   "name": "pclinic-report-service-api",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "./src/app.ts",
   "scripts": {
-    "dev": "nodemon app.ts",
+    "build": "tsc && babel dist --out-dir dist",
+    "dev": "nodemon src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "@babel/preset-typescript": "^7.25.7",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
