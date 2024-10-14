@@ -46,8 +46,7 @@ export const generateDocumentHtmlToPdfDemo = async (
 
     // Tạo trình duyệt Puppeteer và chuyển đổi HTML thành PDF
     const browser = await puppeteer.launch({
-      executablePath: require("puppeteer").executablePath(),
-      headless: true,
+      headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       timeout: 60000,
     });
