@@ -11,7 +11,7 @@ import electrocardiogramRoute from "./src/routes/electrocardiogramRoute";
 import echocardiogramphyRoute from "./src/routes/echocardiogramphyRoute";
 import abdominalUltrasoundRoute from "./src/routes/abdominalUtrasoundRoute";
 import thyroidUltrasoundRoute from "./src/routes/thyroidUltrasoundRoute";
-import documentRoute from './src/routes/documentRoute'
+import demoHtmlToPdf from './src/routes/demoHtmlToPdf'
 //connect db
 connectDB();
 //create server
@@ -30,7 +30,7 @@ app.use("/api/electrocardiogram", electrocardiogramRoute);
 app.use("/api/echocardiogram", echocardiogramphyRoute);
 app.use("/api/abdominal-ultrasound", abdominalUltrasoundRoute);
 app.use("/api/thyroid-ultrasound", thyroidUltrasoundRoute);
-app.use("/api/document", documentRoute);
+app.use("/api/pdf", demoHtmlToPdf);
 
 //error caching
 app.all("*", (req, res, next) => {

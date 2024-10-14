@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siêu Âm Doppler Mẫu Ổ Bụng</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; ">
+    <div style="max-width: 800px; margin: 0 auto; background-color: white; padding: 20px;">
+        <header style="display: flex; align-items: center; margin-bottom: 20px;">
+            <img src="https://i.ibb.co/Mfdfs38/Final-Logo.png" alt="P-CLINIC Logo" style="width: 120px; height: 120px; margin-right: 20px;">
+            <div>
+                <h1 style="margin: 0; color: #0056b3; font-size: 18px;">PHÒNG KHÁM CHUYÊN NỘI KHOA P-CLINIC</h1>
+                <p style="margin: 5px 0 0; font-size: 14px; color: #666;">Địa chỉ: Any address you want.</p>
+            </div>
+        </header>
+
+        <h2 style="text-align: center; color: #0056b3; margin-top: 0;">SIÊU ÂM DOPPLER MÀU Ổ BỤNG</h2>
+
+        <div style="margin-bottom: 20px;">
+            <p><strong>Họ và Tên:</strong> {{patientName}} &nbsp;&nbsp;&nbsp; <strong>Tuổi:</strong> {{age}} &nbsp;&nbsp;&nbsp; <strong>Giới tính:</strong> {{gender}}</p>
+            <p><strong>Địa chỉ:</strong> {{address}}</p>
+            <p><strong>Chuẩn đoán:</strong> {{diagnosis}}</p>
+        </div>
+        <img src="{{imageUrl}}" alt="Patient Image" style="width: 200px; height: 200px; object-fit: cover; margin-bottom: 20px;"/>
+        
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black; padding: 8px;">Tên</th>
+                    <th style="border: 1px solid black; padding: 8px;">Giá trị</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each additionalInfo}}
+                <tr>
+                    <td style="border: 1px solid black; padding: 8px;">{{this.name}}</td>
+                    <td style="border: 1px solid black; padding: 8px;">{{this.value}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <div style="border-top: 2px solid #0056b3; border-bottom: 2px solid #0056b3; padding: 10px 0;">
+            <h3 style="margin: 0; color: #0056b3;">Gan:</h3>
+            <p><strong>Túi mật - đường mật:</strong> {gallbladderBiliaryTract}</p>
+            <p><strong>Lách:</strong> {milt}</p>
+            <p><strong>Thận:</strong> {kidney}</p>
+            <p><strong>Tụy:</strong> {pancreas}</p>
+            <p><strong>Bàn quang:</strong> {bladder}</p>
+            <p><strong>Dịch dư ổ:</strong> {mucus}</p>
+            <p><strong>Các cơ quan khác:</strong> {other}</p>
+            <p><strong>Link hình ảnh:</strong></p>
+            <p>{imageUrl}</p>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <h3 style="color: #0056b3; margin-bottom: 5px;">KẾT LUẬN</h3>
+            <p>{finalConclusion}</p>
+        </div>
+
+        <div style="text-align: right; margin-top: 20px;">
+            <p>Ngày {day} tháng {month} năm {year}</p>
+            <p><strong>BÁC SĨ THỰC HIỆN</strong></p>
+            <p style="margin-top: 40px;">{doctorName}</p>
+        </div>
+
+        <footer style="margin-top: 40px; border-top: 1px solid #0056b3; padding-top: 10px; display: flex; justify-content: space-between; font-size: 12px; color: #666;">
+            <span>PHIẾU SIÊU ÂM</span>
+            <span>PHÒNG KHÁM P-CLINIC</span>
+        </footer>
+    </div>
+</body>
+</html>
