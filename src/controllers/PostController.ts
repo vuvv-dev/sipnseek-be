@@ -275,7 +275,7 @@ export const getAllActivePost = async (
           ]
       })
     }
-    const posts = await Post.find(filter).select('slug image position title view status createdAt').populate({
+    const posts = await Post.find(filter).select('slug image short_desc position title view status createdAt').populate({
       path: 'categories',  // populate categories
       match: { status: 2 }, // only categories with status 2
       select: 'name _id' // specify the fields you want to retrieve
@@ -392,7 +392,7 @@ export const getAllNewPost = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    const posts = await Post.find({ status: 2 }).select('slug image position title view status createdAt').populate({
+    const posts = await Post.find({ status: 2 }).select('slug short_desc image position title view status createdAt ').populate({
       path: 'categories',  // populate categories
       match: { status: 2 }, // only categories with status 2
       select: 'name _id' // specify the fields you want to retrieve
