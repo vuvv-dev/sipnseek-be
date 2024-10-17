@@ -1,19 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { promises as fs } from "fs";
 import Handlebars from "handlebars";
-import puppeteer from "puppeteer";
 import path from "path";
 import { ErrorType } from "../middlewares/errorHandler";
 import { pad } from "lodash";
-// Hàm để tạo file PDF
+import pdf from 'html-pdf-node';
+
 export const generateDocumentHtmlToPdfDemo = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    // Lấy dữ liệu từ request body (JSON với các thông tin như name, age, v.v.)
-    // const { patientName, age, gender, address, diagnosis } = req.body;
     const patientName = "Vo Van Vu";
     const age = 29;
     const gender = "male";
@@ -27,11 +25,9 @@ export const generateDocumentHtmlToPdfDemo = async (
       { name: "Nhóm máu", value: "A" },
     ];
 
-    // Đọc file HTML template
-    const templatePath = path.join(__dirname, "../templates/document.html"); // Đường dẫn đến file HTML
-    console.log(templatePath);
+    const templatePath = path.join(__dirname, "../templates/document.html");
     const htmlTemplate = await fs.readFile(templatePath, "utf-8");
-    // Sử dụng Handlebars để xử lý các placeholder
+
     const template = Handlebars.compile(htmlTemplate);
     const htmlContent = template({
       patientName,
@@ -42,38 +38,13 @@ export const generateDocumentHtmlToPdfDemo = async (
       additionalInfo,
       imageUrl,
     });
-    const executablePath = puppeteer.executablePath();
-    // Tạo trình duyệt Puppeteer và chuyển đổi HTML thành PDF
-    const browser = await puppeteer.launch({
-      headless: "shell",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      // executablePath: executablePath,
-      timeout: 60000,
-    });
 
-    console.log("Starting Puppeteer...");
-    console.log(await browser.version());
+    const file = { content: htmlContent };
+    const pdfBuffer = await pdf.generatePdf(file, { format: 'A4' });
 
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "load" });
-
-    // Tạo PDF từ nội dung HTML
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      printBackground: true,
-    });
-
-    // Đóng trình duyệt
-    await browser.close();
-
-    // Ghi log kết quả để kiểm tra buffer PDF
-
-    // Thiết lập header cho response
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", 'attachment; filename="document.pdf"');
-
-    // Gửi buffer PDF về cho client
-    res.end(pdfBuffer); // Sử dụng res.end() để gửi trực tiếp buffer PDF
+    res.end(pdfBuffer);
   } catch (error) {
     console.error("Detailed Error:", error);
     const err: ErrorType = new Error(
