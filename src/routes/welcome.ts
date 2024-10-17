@@ -4,7 +4,8 @@ import {start} from '../controllers/start'
 import { JwtPayload } from 'jwt-decode';
 
 export interface JwtPayloadOptions extends JwtPayload {
-    role: string
+    role: string,
+    sub: string
 }
 
 
