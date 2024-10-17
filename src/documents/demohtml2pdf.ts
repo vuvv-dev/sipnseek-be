@@ -25,7 +25,7 @@ export const generateDocumentHtmlToPdfDemo = async (
       { name: "Nhóm máu", value: "A" },
     ];
 
-    const templatePath = path.join(__dirname, "../templates/document.html");
+    const templatePath = path.join(__dirname, "../templates/generalMedicalReporttemplate.html");
     const htmlTemplate = await fs.readFile(templatePath, "utf-8");
 
     const template = Handlebars.compile(htmlTemplate);
