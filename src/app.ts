@@ -15,6 +15,7 @@ import demoHtmlToPdf from './routes/demoHtmlToPdf'
 import generatePdfRoute from "./routes/generatePdfRoute";
 import categoryRoute from "./routes/categoryRoute";
 import postRoute from "./routes/postRoute";
+import contactRoute from "./routes/contactRoute";
 //connect db
 connectDB();
 //create server
@@ -37,6 +38,7 @@ app.use("/api/pdf", demoHtmlToPdf);
 app.use("/api/generate-pdf", generatePdfRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/post", postRoute);
+app.use('/api/contact', contactRoute);
 
 //error caching
 app.all("*", (req, res, next) => {
