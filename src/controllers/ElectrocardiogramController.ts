@@ -174,7 +174,6 @@ export const deleteElectrocardiogramByServiceId = async (
     }
 
     const { id } = req.params;
-    console.log(id);
 
     const result = await Electrocardiogram.findOneAndDelete({
       serviceOrderedId: id,
