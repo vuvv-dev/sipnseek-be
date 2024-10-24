@@ -31,7 +31,7 @@ export const createNewAbdominalUltrasound = async (
       });
     }
 
-    const foundReport = await Electrocardiogram.findOne({
+    const foundReport = await AbdominalUltrasound.findOne({
       serviceOrderedId: req.body.serviceOrderedId,
     });
 
@@ -123,6 +123,7 @@ export const updateAbdominalUltrasoundByServiceId = async (
     const { serviceOrderedId } = req.body;
 
     const updateData = _.omit(req.body, ["serviceOrderedId"]);
+    console.log(updateData);
 
     if (Object.keys(updateData).length === 0) {
       return res.status(400).json({
@@ -135,9 +136,61 @@ export const updateAbdominalUltrasoundByServiceId = async (
       { $set: updateData },
       { new: true }
     );
+    console.log(result);
 
     return res.status(200).json({
       message: "AbdominalUltrasound updated successfully",
+      body: {
+        result: result,
+      },
+    });
+  } catch (error) {
+    const err: ErrorType = new Error("Something went wrong");
+    err.status = 400;
+    next(error);
+  }
+};
+
+export const deleteAbdominalUltrasoundByServiceId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const authorization = req.headers.authorization;
+
+    if (!authorization) {
+      return res.status(401).json({
+        error: {
+          message: "Unauthorized",
+        },
+      });
+    }
+
+    const token = authorization.replace("Bearer ", "");
+    const role = jwtDecode<JwtPayloadOptions>(token).role;
+
+    if (role === ROLES.USER) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const { id } = req.params;
+    console.log(id);
+
+    const result = await AbdominalUltrasound.findOneAndDelete({
+      serviceOrderedId: id,
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        message: "AbdominalUltrasound not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "AbdominalUltrasound deleted successfully",
       body: {
         result: result,
       },

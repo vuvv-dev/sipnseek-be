@@ -147,3 +147,54 @@ export const updateElectrocardiogramByServiceId = async (
     next(error);
   }
 };
+
+export const deleteElectrocardiogramByServiceId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const authorization = req.headers.authorization;
+
+    if (!authorization) {
+      return res.status(401).json({
+        error: {
+          message: "Unauthorized",
+        },
+      });
+    }
+
+    const token = authorization.replace("Bearer ", "");
+    const role = jwtDecode<JwtPayloadOptions>(token).role;
+
+    if (role === ROLES.USER) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const { id } = req.params;
+    console.log(id);
+
+    const result = await Electrocardiogram.findOneAndDelete({
+      serviceOrderedId: id,
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        message: "Electrocardiogram not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Electrocardiogram deleted successfully",
+      body: {
+        result: result,
+      },
+    });
+  } catch (error) {
+    const err: ErrorType = new Error("Something went wrong");
+    err.status = 400;
+    next(error);
+  }
+};
