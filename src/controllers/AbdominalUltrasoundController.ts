@@ -123,7 +123,6 @@ export const updateAbdominalUltrasoundByServiceId = async (
     const { serviceOrderedId } = req.body;
 
     const updateData = _.omit(req.body, ["serviceOrderedId"]);
-    console.log(updateData);
 
     if (Object.keys(updateData).length === 0) {
       return res.status(400).json({
@@ -136,7 +135,6 @@ export const updateAbdominalUltrasoundByServiceId = async (
       { $set: updateData },
       { new: true }
     );
-    console.log(result);
 
     return res.status(200).json({
       message: "AbdominalUltrasound updated successfully",
@@ -177,7 +175,6 @@ export const deleteAbdominalUltrasoundByServiceId = async (
     }
 
     const { id } = req.params;
-    console.log(id);
 
     const result = await AbdominalUltrasound.findOneAndDelete({
       serviceOrderedId: id,

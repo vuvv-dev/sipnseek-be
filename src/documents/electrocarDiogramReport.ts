@@ -80,9 +80,6 @@ export const generateElectrocarDiogramReport = async (
       year: dayjs(foundElectrocarDiogramReport?.createdAt!).format("YYYY"),
     };
 
-    console.log(foundElectrocarDiogramReport);
-    console.log(data);
-
     if (!foundElectrocarDiogramReport) {
       const err: ErrorType = new Error("Electrocardiogram Report not found");
       err.status = 400;
