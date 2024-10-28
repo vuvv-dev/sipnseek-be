@@ -30,6 +30,13 @@ export const verifyAuthentication = async (
               },
             });
         }
+        if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+            return res.status(401).json({
+                error: {
+                    message: "Token has expired",
+                },
+            });
+        }
         req.user = decoded;
         next();
     } catch (error) {
