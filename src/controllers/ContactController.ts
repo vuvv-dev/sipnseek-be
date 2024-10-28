@@ -94,7 +94,7 @@ export const getAllContact = async (
             })
         }
 
-        const contacts = await Contact.find(filter).select("fullName gender age emailOrPhone status").skip(skip).limit(limit);
+        const contacts = await Contact.find(filter).select("fullName gender age emailOrPhone status").skip(skip).limit(limit).sort({ createdAt: -1 });
 
         const totalContact = await Contact.countDocuments(filter);
         const totalPage = Math.ceil(totalContact / limit);
