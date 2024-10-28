@@ -5,26 +5,16 @@ import { ROLES } from "../setting/constant";
 import { ErrorType } from "../middlewares/errorHandler";
 import _ from "lodash";
 import { Post } from "../models/Post";
+import { CustomRequest } from "../middlewares/veriftyAuthentication";
 
 export const createPost = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
-    const sub = jwtDecode<JwtPayloadOptions>(token).sub;
+    const role = req?.user?.role;
+    const sub = req?.user?.sub;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -47,24 +37,13 @@ export const createPost = async (
 };
 
 export const updatePost = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
-    const sub = jwtDecode<JwtPayloadOptions>(token).sub;
+    const role = req?.user?.role;
+    const sub = req?.user?.sub;
     req.body.updated_by = sub;
     let post;
     if (role == ROLES.USER) {
@@ -98,24 +77,13 @@ export const updatePost = async (
 }
 
 export const getAllPost = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
-    const sub = jwtDecode<JwtPayloadOptions>(token).sub;
+    const role = req?.user?.role;
+    const sub = req?.user?.sub;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -173,24 +141,13 @@ export const getAllPost = async (
 }
 
 export const deletePost = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
-    const sub = jwtDecode<JwtPayloadOptions>(token).sub;
+    const role = req?.user?.role;
+    const sub = req?.user?.sub;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -299,24 +256,13 @@ export const getAllActivePost = async (
 
 // for admin, doctor, staff
 export const getPostById = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
-    const sub = jwtDecode<JwtPayloadOptions>(token).sub;
+    const role = req?.user?.role;
+    const sub = req?.user?.sub;
     let post;
     if (role == ROLES.USER) {
       return res.status(401).json({
@@ -355,7 +301,7 @@ export const getPostById = async (
 }
 
 export const getRelatedPosts = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {

@@ -5,6 +5,7 @@ import { ROLES } from "../setting/constant";
 import { ErrorType } from "../middlewares/errorHandler";
 import _ from "lodash";
 import { Category } from "../models/Category";
+import { CustomRequest } from "../middlewares/veriftyAuthentication";
 
 export const createCategory = async (
   req: Request,
@@ -89,23 +90,12 @@ export const updateCategory = async (
 }
 
 export const getAllCategory = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role != ROLES.ADMIN) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -151,23 +141,12 @@ export const getAllActiveCategory = async (
 
 
 export const deleteCategory = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role != ROLES.ADMIN) {
       return res.status(401).json({
         message: "Unauthorized",
