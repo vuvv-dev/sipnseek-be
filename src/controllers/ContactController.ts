@@ -5,6 +5,7 @@ import { ROLES } from "../setting/constant";
 import { ErrorType } from "../middlewares/errorHandler";
 import _ from "lodash";
 import { Contact } from "../models/Contact";
+import { CustomRequest } from "../middlewares/veriftyAuthentication";
 
 export const createAContact = async (
     req: Request,
@@ -28,23 +29,12 @@ export const createAContact = async (
 };
 
 export const updateContact = async (
-    req: Request,
+    req: CustomRequest,
     res: Response,
     next: NextFunction
 ): Promise<any> => {
-    try {
-        const authorization = req.headers.authorization;
-
-        if (!authorization) {
-            return res.status(401).json({
-                error: {
-                    message: "Unauthorized",
-                },
-            });
-        }
-
-        const token = authorization.replace("Bearer ", "");
-        const role = jwtDecode<JwtPayloadOptions>(token).role;
+    try {   
+        const role = req?.user?.role;
         if (role != ROLES.ADMIN) {
             return res.status(401).json({
                 message: "Unauthorized",
@@ -73,23 +63,12 @@ export const updateContact = async (
 }
 
 export const getAllContact = async (
-    req: Request,
+    req: CustomRequest,
     res: Response,
     next: NextFunction
 ): Promise<any> => {
     try {
-        const authorization = req.headers.authorization;
-
-        if (!authorization) {
-            return res.status(401).json({
-                error: {
-                    message: "Unauthorized",
-                },
-            });
-        }
-
-        const token = authorization.replace("Bearer ", "");
-        const role = jwtDecode<JwtPayloadOptions>(token).role;
+        const role = req?.user?.role;
         if (role != ROLES.ADMIN) {
             return res.status(401).json({
                 message: "Unauthorized",
@@ -115,7 +94,7 @@ export const getAllContact = async (
             })
         }
 
-        const contacts = await Contact.find(filter).select("fullName gender age emailOrPhone status").skip(skip).limit(limit);
+        const contacts = await Contact.find(filter).select("fullName gender age emailOrPhone status").skip(skip).limit(limit).sort({ createdAt: -1 });
 
         const totalContact = await Contact.countDocuments(filter);
         const totalPage = Math.ceil(totalContact / limit);
@@ -135,23 +114,12 @@ export const getAllContact = async (
 }
 
 export const getContactById = async (
-    req: Request,
+    req: CustomRequest,
     res: Response,
     next: NextFunction
 ): Promise<any> => {
     try {
-        const authorization = req.headers.authorization;
-
-        if (!authorization) {
-            return res.status(401).json({
-                error: {
-                    message: "Unauthorized",
-                },
-            });
-        }
-
-        const token = authorization.replace("Bearer ", "");
-        const role = jwtDecode<JwtPayloadOptions>(token).role;
+        const role = req?.user?.role;
         if (role != ROLES.ADMIN) {
             return res.status(401).json({
                 message: "Unauthorized",
@@ -176,23 +144,12 @@ export const getContactById = async (
 }
 
 export const deleteContact = async (
-    req: Request,
+    req: CustomRequest,
     res: Response,
     next: NextFunction
 ): Promise<any> => {
     try {
-        const authorization = req.headers.authorization;
-
-        if (!authorization) {
-            return res.status(401).json({
-                error: {
-                    message: "Unauthorized",
-                },
-            });
-        }
-
-        const token = authorization.replace("Bearer ", "");
-        const role = jwtDecode<JwtPayloadOptions>(token).role;
+        const role = req?.user?.role;
         if (role != ROLES.ADMIN) {
             return res.status(401).json({
                 message: "Unauthorized",

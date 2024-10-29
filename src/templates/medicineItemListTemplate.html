@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phiếu khám</title>
+    <title>Đơn thuốc</title>
   </head>
   <body
     style="
@@ -66,10 +66,10 @@
           font-size: 26px;
         "
       >
-        PHIẾU KHÁM
+        Đơn thuốc
       </h2>
       <p style="text-align: center; margin-bottom: 20px; font-style: italic">
-        Mã phiếu: {{reportCode}}
+        Mã đơn thuốc: {{reportCode}}
       </p>
       <hr style="border: 2px solid #005792; margin: 10px 20px" />
       <div
@@ -90,126 +90,7 @@
         <strong>Địa chỉ:</strong> {{patientAddress}}
       </p>
       <hr style="border: 2px solid #005792; margin: 10px 20px" />
-      <table style="margin: 0px 20px; width: 100%; border-collapse: collapse">
-        <tr>
-          <th style="width: 33%; text-align: left; padding: 4px">
-            Tền sử bệnh án:
-          </th>
-          <th style="width: 33%; text-align: left; padding: 4px">
-            Tổng trạng chung:
-          </th>
-          <th style="width: 33%; text-align: left; padding: 4px">Chiều cao:</th>
-        </tr>
-        <tr>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{historyOfIllness}}
-          </td>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{overallStatus}}
-          </td>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{height}}
-          </td>
-        </tr>
-      </table>
-      <table style="margin: 0px 20px; width: 100%; border-collapse: collapse">
-        <tr>
-          <th style="width: 33%; text-align: left; padding: 4px">Mạch:</th>
-          <th style="width: 33%; text-align: left; padding: 4px">Nhiệt:</th>
-          <th style="width: 33%; text-align: left; padding: 4px">Huyết áp</th>
-        </tr>
-        <tr>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{pulse}}
-          </td>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{temperature}}
-          </td>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{bloodPressure}}
-          </td>
-        </tr>
-      </table>
-      <table style="margin: 0px 20px; width: 100%; border-collapse: collapse">
-        <tr>
-          <th style="width: 33%; text-align: left; padding: 4px">Cân nặng:</th>
-        </tr>
-        <tr>
-          <td
-            style="width: 33%; text-align: left; padding: 4px; color: #005792"
-          >
-            {{weight}}
-          </td>
-        </tr>
-      </table>
-      <p
-        style="
-          margin: 0px 20px;
-          font-weight: 600;
-          color: #005792;
-          margin-top: 20px;
-          margin-bottom: 10px;
-        "
-      >
-        Dịch vụ khám chữa bệnh
-      </p>
-
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-        "
-      >
-        <table style="width: 95%; border-collapse: collapse; margin: 0px 0px">
-          <thead>
-            <tr>
-              <th style="border: 1px solid #005792; padding: 8px; width: 20px">
-                STT
-              </th>
-              <th style="border: 1px solid #005792; padding: 8px; width: 100px">
-                Mã
-              </th>
-              <th style="border: 1px solid #005792; padding: 8px">Tên</th>
-              <th style="border: 1px solid #005792; padding: 8px; width: 150px">
-                Đơn giá
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each services}}
-            <tr>
-              <td style="border: 1px solid #005792; padding: 8px; width: 20px">
-                {{this.index}}
-              </td>
-              <td style="border: 1px solid #005792; padding: 8px; width: 100px">
-                {{this.code}}
-              </td>
-              <td style="border: 1px solid #005792; padding: 8px">
-                {{this.name}}
-              </td>
-              <td style="border: 1px solid #005792; padding: 8px; width: 150px">
-                {{this.price}}
-              </td>
-            </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
+      
       <p
         style="
           margin: 0px 20px;
@@ -278,26 +159,19 @@
         "
       >
         <div>
-          <h3 style="color: #005792">Kết luận:</h3>
+          <h3 style="color: #005792">Lưu ý:</h3>
           <p
             style="color: #005792; max-width: 300px; text-transform: uppercase"
           >
-            {{{finalConsultation}}}
+            {{{notice}}}
           </p>
         </div>
         <div style="text-align: center">
           <p>Ngày {{day}} tháng {{month}} năm {{year}}</p>
-          <p style="color: #005792"><strong>BÁC SĨ THỰC HIỆN</strong></p>
+          <p style="color: #005792"><strong>BÁC SĨ CUNG CẤP</strong></p>
           <p style="color: #005792"><strong>{{doctorName}}</strong></p>
         </div>
       </div>
-      <!-- <footer>
-        <img
-          src="https://i.ibb.co/svtxyyz/Screenshot-2024-10-18-011204.png"
-          alt="footer"
-          style="width: 100%; height: auto"
-        />
-      </footer> -->
     </div>
   </body>
 </html>

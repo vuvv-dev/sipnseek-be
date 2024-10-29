@@ -6,32 +6,22 @@ import { Electrocardiogram } from "../models/Electrocardiogram";
 import { AbdominalUltrasound } from "../models/AbdominalUltrasound";
 import { ErrorType } from "../middlewares/errorHandler";
 import _ from "lodash";
+import { CustomRequest } from "../middlewares/veriftyAuthentication";
 
 export const createNewAbdominalUltrasound = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
 
-    const foundReport = await Electrocardiogram.findOne({
+    const foundReport = await AbdominalUltrasound.findOne({
       serviceOrderedId: req.body.serviceOrderedId,
     });
 
@@ -59,22 +49,12 @@ export const createNewAbdominalUltrasound = async (
 };
 
 export const getAbdominalUltrasoundByServiceId = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -99,22 +79,12 @@ export const getAbdominalUltrasoundByServiceId = async (
 };
 
 export const updateAbdominalUltrasoundByServiceId = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -138,6 +108,45 @@ export const updateAbdominalUltrasoundByServiceId = async (
 
     return res.status(200).json({
       message: "AbdominalUltrasound updated successfully",
+      body: {
+        result: result,
+      },
+    });
+  } catch (error) {
+    const err: ErrorType = new Error("Something went wrong");
+    err.status = 400;
+    next(error);
+  }
+};
+
+export const deleteAbdominalUltrasoundByServiceId = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const role = req?.user?.role;
+
+    if (role === ROLES.USER) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const { id } = req.params;
+
+    const result = await AbdominalUltrasound.findOneAndDelete({
+      serviceOrderedId: id,
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        message: "AbdominalUltrasound not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "AbdominalUltrasound deleted successfully",
       body: {
         result: result,
       },

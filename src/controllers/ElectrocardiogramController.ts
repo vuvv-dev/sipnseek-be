@@ -5,25 +5,15 @@ import { ErrorType } from "../middlewares/errorHandler";
 import { Electrocardiogram } from "../models/Electrocardiogram";
 import { JwtPayloadOptions } from "../routes/welcome";
 import { ROLES } from "../setting/constant";
+import { CustomRequest } from "../middlewares/veriftyAuthentication";
 
 export const createNewElectrocardiogram = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -59,22 +49,12 @@ export const createNewElectrocardiogram = async (
 };
 
 export const getElectrocardiogramByServiceId = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -98,22 +78,12 @@ export const getElectrocardiogramByServiceId = async (
   }
 };
 export const updateElectrocardiogramByServiceId = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const authorization = req.headers.authorization;
-
-    if (!authorization) {
-      return res.status(401).json({
-        error: {
-          message: "Unauthorized",
-        },
-      });
-    }
-    const token = authorization.replace("Bearer ", "");
-    const role = jwtDecode<JwtPayloadOptions>(token).role;
+    const role = req?.user?.role;
     if (role == ROLES.USER) {
       return res.status(401).json({
         message: "Unauthorized",
@@ -137,6 +107,45 @@ export const updateElectrocardiogramByServiceId = async (
 
     return res.status(200).json({
       message: "Electrocardiogram updated successfully",
+      body: {
+        result: result,
+      },
+    });
+  } catch (error) {
+    const err: ErrorType = new Error("Something went wrong");
+    err.status = 400;
+    next(error);
+  }
+};
+
+export const deleteElectrocardiogramByServiceId = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const role = req?.user?.role;
+
+    if (role === ROLES.USER) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const { id } = req.params;
+
+    const result = await Electrocardiogram.findOneAndDelete({
+      serviceOrderedId: id,
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        message: "Electrocardiogram not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Electrocardiogram deleted successfully",
       body: {
         result: result,
       },

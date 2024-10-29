@@ -12,7 +12,7 @@ const abdominalUltrasoundSchema = new mongoose.Schema(
       trim: true,
     },
     treatmentDay: {
-      type: Number,
+      type: String,
       default: null,
       trim: true,
     },
@@ -34,6 +34,16 @@ const abdominalUltrasoundSchema = new mongoose.Schema(
       trim: true,
     },
     ages: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    address: {
       type: String,
       default: null,
       trim: true,
@@ -85,6 +95,10 @@ const abdominalUltrasoundSchema = new mongoose.Schema(
       trim: true,
     },
     finalConclusion: {
+      type: String,
+      default: null,
+    },
+    image: {
       type: String,
       default: null,
     },

@@ -8,7 +8,7 @@
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0px; background-color: white;">
     <div style="max-width: 820px; margin: 0 auto; background-color: white; padding: 0px; ">
         <header style="display: flex; align-items: center; margin-bottom: 20px; justify-content: center; position: relative;">
-            <img src="https://i.ibb.co/B4p4JNL/Screenshot-2024-10-18-005923.png" alt="" style="width: 180px; height: 180px; position: absolute; top: 0; left: 0;">
+            <img src="https://i.ibb.co/PttNHXW/Screenshot-2024-10-18-005923.png" alt="" style="width: 180px; height: 180px; position: absolute; top: 0; left: 0;">
             <div style="margin-left: 140px; margin-top: 40px; text-align: center;">
                 <h1 style="color: #005792; margin: 0; font-size: 26px;">PHÒNG KHÁM CHUYÊN NỘI KHOA</h1>
                 <h1 style="color: #005792; margin: 0; font-size: 26px;">P-CLINIC</h1>
@@ -20,11 +20,11 @@
         <hr style=" border: 2px solid #005792; margin: 10px 20px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 0px; margin-left: 20px; margin-right: 20px;">
             <p style="margin:2px;"><strong>Họ và tên:</strong> {{patientName}}</p>
-            <p style="margin:2px;"><strong>Tuổi:</strong> {{age}}</p>
+            <p style="margin:2px;"><strong>Tuổi:</strong> {{ages}}</p>
             <p style="margin:2px;"><strong>Giới tính:</strong> {{gender}}</p>
         </div>
-        <p style="margin-left: 20px; margin-right: 20px;"><strong>Chuẩn đoán:</strong> {{diagnosis}}</p>
-        <p style="margin-left: 20px; margin-right: 20px;"><strong>Địa chỉ:</strong> {{patientAddress}}</p>
+        <p style="margin-left: 20px; margin-right: 20px;"><strong>Chuẩn đoán:</strong> {{diagostic}}</p>
+        <p style="margin-left: 20px; margin-right: 20px;"><strong>Địa chỉ:</strong> {{address}}</p>
         <hr style="border: 2px solid #005792; margin: 10px 20px;">
         <div style="margin-bottom: 20px;">
             <p style="margin-left: 20px; margin-right: 20px;"><strong>Gan:</strong> {{liver}}</p>
@@ -33,26 +33,27 @@
             <p style="margin-left: 20px; margin-right: 20px;"><strong>Thận:</strong> {{kidney}}</p>
             <p style="margin-left: 20px; margin-right: 20px;"><strong>Tụy:</strong> {{pancreas}}</p>
             <p style="margin-left: 20px; margin-right: 20px;"><strong>Bàn quang:</strong> {{bladder}}</p>
-            <p style="margin-left: 20px; margin-right: 20px;"><strong>Dịch dư do:</strong> {{mucus}}</p>
+            <p style="margin-left: 20px; margin-right: 20px;"><strong>Dịch tự do:</strong> {{mucus}}</p>
             <p style="margin-left: 20px; margin-right: 20px;"><strong>Các cơ quan khác:</strong> {{other}}</p>
         </div>
         <p style="margin: 0px 20px;"><strong>Hình ảnh:</strong></p>
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="{{imageUrl}}" alt="Hình ảnh siêu âm" style="max-width: 200px; height: auto;">
+            <img src="{{image}}" alt="Hình ảnh siêu âm" style="max-width: 400px; height: auto;">
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-left: 20px; margin-right: 20px;">
             <div>
                 <h3 style="color: #005792;">Kết luận:</h3>
-                <p style="color: #005792;">{{FINALCONCLUSION}}</p>
+                <p style="color: #005792; text-transform: uppercase;">{{{finalConclusion}}}</p>
             </div>
             <div style="text-align: center;">
                 <p>Ngày {{day}} tháng {{month}} năm {{year}}</p>
                 <p style="color: #005792;"><strong>BÁC SĨ THỰC HIỆN</strong></p>
+                <p style="color: #005792"><strong>{{doctorName}}</strong></p>
             </div>
         </div>
-        <footer style="position: relative; top: 101px;">
-            <img src="https://i.ibb.co/7SH6N72/Screenshot-2024-10-18-011204.png" alt="footer" style="width: 100%; height: auto;">
-        </footer>
+        <!-- <footer style="position: relative; top: 101px;">
+            <img src="https://i.ibb.co/svtxyyz/Screenshot-2024-10-18-011204.png" alt="footer" style="width: 100%; height: auto;">
+        </footer> -->
     </div>
     
 </body>
