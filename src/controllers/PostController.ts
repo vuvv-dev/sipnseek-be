@@ -217,8 +217,12 @@ export const getAllActivePost = async (
     const page = parseInt(req.query.page as string);
     const limit = parseInt(req.query.limit as string);
     const skip = (page - 1) * limit;
+    const categories = req.query.categories && (req.query.categories as string).split(',');
     let filter: any = {
       $and: [{ status: 2 }]
+    }
+    if (categories) {
+      filter.$and.push({ categories: { $in: categories } });
     }
 
     let search = req.query.search && (req.query.search as string).replace(/^"|"$/g, '');
