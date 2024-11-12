@@ -124,7 +124,7 @@ export const getAllActiveCategory = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    const categories = await Category.find({ status: 2 });
+    const categories = await Category.find({ status: 2 }).select("name _id");
 
     return res.status(200).json({
       message: "Categories fetched successfully",
