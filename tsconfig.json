@@ -7,7 +7,10 @@
     "strict": true,                     // Bật các kiểm tra nghiêm ngặt
     "esModuleInterop": true,            // Hỗ trợ tương tác với các mô-đun ES
     "skipLibCheck": true,               // Bỏ qua kiểm tra thư viện
-    "forceConsistentCasingInFileNames": true // Đảm bảo sử dụng chính xác tên tệp
+    "forceConsistentCasingInFileNames": true, // Đảm bảo sử dụng chính xác tên tệp
+    "paths": {
+      "@/*": ["./src/*"],
+    }
   },
   "include": ["src/**/*"],              // Bao gồm tất cả tệp trong thư mục src
   "exclude": ["node_modules", "dist"]  // Loại trừ thư mục node_modules và dist
