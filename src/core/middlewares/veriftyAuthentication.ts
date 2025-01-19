@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { JwtPayloadOptions } from "../routes/welcome";
+import { JwtPayloadOptions } from "../../external/libs/Jwt";
 import { NextFunction, Request, Response } from "express";
 import { ErrorType } from "./errorHandler";
 

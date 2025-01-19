@@ -35,10 +35,10 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
             err.message.push(err.errors[i].message);
         }
     }
-    console.log('err', err);
+    console.error('err', err);
 
     res.status(err.statusCode).json({
-        status: 'fail',
+        status: 'FAILED',
         message: err.message,
     });
 };

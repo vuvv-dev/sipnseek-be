@@ -5,7 +5,12 @@ import express from "express";
 import cors from "cors";
 import { errorHandler } from "./core/middlewares/errorHandler";
 import { connectDB } from "./external/configurations/mongoContext";
-import startRoute from './core/modules/start/routes/startRoute'
+
+import startRoute from "./core/modules/start/routes/startRoute";
+import PriceRoute from "./core/modules/enum/routes/PriceRoute";
+import DistanceRoute from "./core/modules/enum/routes/DistanceRoute";
+import PurposeRoute from "./core/modules/enum/routes/PurposeRoute";
+import CoffeeStoreRoute from "./core/modules/store/routes/CoffeeStoreRoute";
 
 //connect db
 connectDB();
@@ -18,9 +23,15 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-
+const prefix = "/api/v1";
 //perform endpoint
 app.use("/", startRoute);
+
+app.use(prefix + "/prices", PriceRoute);
+app.use(prefix + "/distances", DistanceRoute);
+app.use(prefix + "/purposes", PurposeRoute);
+
+app.use(prefix + "/store", CoffeeStoreRoute);
 
 //error caching
 app.all("*", (req, res, next) => {
@@ -29,7 +40,7 @@ app.all("*", (req, res, next) => {
   next(err);
 });
 //error handler
-app.use("/api", errorHandler);
+app.use("/api/v1", errorHandler);
 
 server.listen(port, () => {
   console.log(`Server connect to port successfully http://localhost:${port} `);
