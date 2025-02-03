@@ -11,6 +11,7 @@ import PriceRoute from "./core/modules/enum/routes/PriceRoute";
 import DistanceRoute from "./core/modules/enum/routes/DistanceRoute";
 import PurposeRoute from "./core/modules/enum/routes/PurposeRoute";
 import CoffeeStoreRoute from "./core/modules/store/routes/CoffeeStoreRoute";
+import ImageGalleryRoute from "./core/modules/gallery/routes/ImageGalleryRoute";
 
 //connect db
 connectDB();
@@ -32,6 +33,7 @@ app.use(prefix + "/distances", DistanceRoute);
 app.use(prefix + "/purposes", PurposeRoute);
 
 app.use(prefix + "/store", CoffeeStoreRoute);
+app.use(prefix + "/gallery", ImageGalleryRoute);
 
 //error caching
 app.all("*", (req, res, next) => {

@@ -4,12 +4,12 @@ export interface ICoffeStore extends Document {
   storename: string;
   addressName: string;
   addressGoogle: {
-    latitude: number;
-    longitude: number;
+    latitude: number | null;
+    longitude: number | null;
   };
-  openTime: Date;
-  closeTime: Date;
-  thumnail: string;
+  openTime: string;
+  closeTime: string;
+  thumbnail: string;
   parkinglot: string;
   avrPrice: Number;
   menu: string;
@@ -18,25 +18,27 @@ export interface ICoffeStore extends Document {
   purposeTag: Schema.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
+  images: Schema.Types.ObjectId[];
 }
 
 const CoffeStoreSchema: Schema = new Schema<ICoffeStore>(
   {
     storename: { type: String, required: true },
     addressGoogle: {
-      latitude: { type: Number },
-      longitude: { type: Number },
+      latitude: { type: Number, default: null },
+      longitude: { type: Number, default: null },
     },
     addressName: { type: String, required: true },
-    openTime: { type: Date, required: true },
-    closeTime: { type: Date, required: true },
-    thumnail: { type: String, required: true },
+    openTime: { type: String, required: true },
+    closeTime: { type: String, required: true },
+    thumbnail: { type: String, required: true },
     parkinglot: { type: String, required: true },
     avrPrice: { type: Number, required: true },
     menu: { type: String, required: true },
     priceTag: [{ type: Schema.Types.ObjectId, ref: "Price" }],
     purposeTag: [{ type: Schema.Types.ObjectId, ref: "Purpose" }],
     description: { type: String, required: true },
+    images: [{ type: Schema.Types.ObjectId, ref: "ImageGallery" }],
   },
   {
     timestamps: true,

@@ -13,7 +13,6 @@ export const GetAllStore = async (
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
 
-    // Lọc cửa hàng
     let filter: any = {};
     let search = req.query.search ? req.query.search.toString() : "";
     search = search.replace(/^"|"$/g, "");
@@ -23,19 +22,15 @@ export const GetAllStore = async (
       filter.$or = [{ storename: searchRegex }];
     }
 
-    const purpose = req.query.purpose ? req.query.purpose.toString() : "";
-    if (purpose) {
-      filter.purpose = purpose;
+    if (req.query.purpose) {
+      filter.purpose = req.query.purpose.toString();
     }
 
-    const price = req.query.price ? req.query.price.toString() : "";
-    if (price) {
-      filter.price = price;
+    if (req.query.price) {
+      filter.price = req.query.price.toString();
     }
 
-    const distance = req.query.distance
-      ? parseFloat(req.query.distance.toString())
-      : null;
+    const distance = req.query.distance ? parseFloat(req.query.distance.toString()) : null;
     const userLat = req.query.lat ? parseFloat(req.query.lat.toString()) : null;
     const userLng = req.query.lng ? parseFloat(req.query.lng.toString()) : null;
 
@@ -43,6 +38,7 @@ export const GetAllStore = async (
       .sort({ createdAt: -1 })
       .populate("priceTag")
       .populate("purposeTag")
+      .populate("images")
       .exec();
 
     if (distance && userLat !== null && userLng !== null) {
@@ -50,9 +46,7 @@ export const GetAllStore = async (
         const storeLat = store.addressGoogle.latitude;
         const storeLng = store.addressGoogle.longitude;
 
-        if (!storeLat && !storeLng) {
-            return;
-        }
+        if (!storeLat || !storeLng) return false;
 
         const calculatedDistance = getDistance(
           { latitude: userLat, longitude: userLng },
@@ -63,14 +57,19 @@ export const GetAllStore = async (
       });
     }
 
-    const recommendedStores = allStores.slice(0, limit);
+    const totalStores = allStores.length;
+
+    const recommendedStores = allStores.slice(skip, skip + limit);
     const relatedStores = allStores
-      .slice(limit, limit * 2)
+      .slice(skip + limit, skip + limit * 2)
       .filter((store) => !recommendedStores.includes(store));
 
     return res.status(200).json({
       message: "SUCCESS",
       body: {
+        total: totalStores,
+        currentPage: page,
+        totalPages: Math.ceil(totalStores / limit),
         recommended: recommendedStores,
         related: relatedStores,
       },
