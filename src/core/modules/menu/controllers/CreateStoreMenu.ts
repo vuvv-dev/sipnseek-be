@@ -1,15 +1,15 @@
 import { ErrorType } from "../../../middlewares/errorHandler";
-import { ImageGallery } from "../models/ImageGallery";
 import { NextFunction, Request, Response } from "express";
+import { Menu } from "../models/Menu";
 
-export const CreateImageGallery = async (
+export const CreateStoreMenu = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const data: { images:string[] } = req.body;
-    const dataToInsert: { image: string}[] = [];
+    const data: { images: string[] } = req.body;
+    const dataToInsert: { image: string }[] = [];
 
     if (!data.images || data.images.length === 0) {
       return res.status(400).json({
@@ -18,21 +18,18 @@ export const CreateImageGallery = async (
     }
 
     data.images.map((item) => {
-      return dataToInsert.push({ image: item});
+      return dataToInsert.push({ image: item });
     });
-
-    const dbResult = await ImageGallery.insertMany(dataToInsert);
-
-    if (!dbResult) {
+    const dataResult = await Menu.insertMany(dataToInsert);
+    if (!dataResult) {
       return res.status(400).json({
-        message: "Failed to create the image gallery. No result returned.",
+        message: "Failed to create the menu. No result returned.",
       });
     }
-
     return res.status(200).json({
       message: "SUCCESS",
       body: {
-        createdGallery: dbResult,
+        createdMenu: dataResult,
       },
     });
   } catch (error) {

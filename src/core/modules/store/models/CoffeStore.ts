@@ -12,7 +12,7 @@ export interface ICoffeStore extends Document {
   thumbnail: string;
   parkinglot: string;
   avrPrice: Number;
-  menu: string;
+  menu: Schema.Types.ObjectId[];
   description: string;
   priceTag: Schema.Types.ObjectId[];
   purposeTag: Schema.Types.ObjectId[];
@@ -34,7 +34,7 @@ const CoffeStoreSchema: Schema = new Schema<ICoffeStore>(
     thumbnail: { type: String, required: true },
     parkinglot: { type: String, required: true },
     avrPrice: { type: Number, required: true },
-    menu: { type: String, required: true },
+    menu: [{ type: Schema.Types.ObjectId, ref: "Menu" }],
     priceTag: [{ type: Schema.Types.ObjectId, ref: "Price" }],
     purposeTag: [{ type: Schema.Types.ObjectId, ref: "Purpose" }],
     description: { type: String, required: true },

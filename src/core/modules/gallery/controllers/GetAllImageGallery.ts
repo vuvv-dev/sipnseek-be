@@ -1,21 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import { ErrorType } from "../../../middlewares/errorHandler";
-import { Price } from "../models/Price";
-import _ from "lodash";
-export const GetPrices = async (
+import { ImageGallery } from "../models/ImageGallery";
+export const GetAllImageGallery = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
   try {
-    const pricesEnumList = await Price.find().sort({ order: 1 });
-
+    const dbResult = await ImageGallery.find({});
     return res.status(200).json({
       message: "SUCCESS",
       body: {
-        prices: pricesEnumList.map((price) =>
-          _.omit(price.toObject(), ["__v"])
-        ),
+        imageGallery: dbResult,
+        images: dbResult.map((image, index) => ({
+          original: image.image,
+          index: index,
+        })),
       },
     });
   } catch (error) {
@@ -23,4 +23,4 @@ export const GetPrices = async (
     err.status = 400;
     next(error);
   }
-};  
+};

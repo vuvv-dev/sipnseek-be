@@ -39,6 +39,7 @@ export const GetAllStore = async (
       .populate("priceTag")
       .populate("purposeTag")
       .populate("images")
+      .populate("menu")
       .exec();
 
     if (distance && userLat !== null && userLng !== null) {

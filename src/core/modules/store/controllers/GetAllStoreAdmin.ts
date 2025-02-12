@@ -20,6 +20,7 @@ export const GetAllStoreForAdmin = async (
         .populate("priceTag")
         .populate("purposeTag")
         .populate("images")
+        .populate("menu")
         .exec();
   
       return res.status(200).json({
