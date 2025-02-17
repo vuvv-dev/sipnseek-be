@@ -14,6 +14,11 @@ export const UpdateStore = async (
     return res.status(400).json({ message: "Store ID is required." });
   }
   const updateData = _.omit(body, ["_id"]);
+
+  if (!updateData) {
+    return res.status(400).json({ message: "No data to update." });
+  }
+
   try {
     const dbResult = await CoffeStore.findByIdAndUpdate(id, updateData, {
       new: true,
