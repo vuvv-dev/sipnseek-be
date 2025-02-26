@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ErrorType } from "../../../middlewares/errorHandler";
 import { CoffeStore } from "../models/CoffeStore";
 import { getDistance } from "geolib";
+import mongoose from "mongoose";
 
 export const GetAllStore = async (
   req: Request,
@@ -10,7 +11,7 @@ export const GetAllStore = async (
 ): Promise<any> => {
   try {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
+    const limit = parseInt(req.query.limit as string) || 6;
     const skip = (page - 1) * limit;
 
     let filter: any = {};
@@ -19,18 +20,44 @@ export const GetAllStore = async (
 
     if (search) {
       const searchRegex = new RegExp(search, "i");
-      filter.$or = [{ storename: searchRegex }];
+      filter.$or = [
+        { storename: searchRegex },
+        {
+          address: searchRegex,
+        },
+        {
+          description: searchRegex,
+        },
+      ];
     }
 
     if (req.query.purpose) {
-      filter.purpose = req.query.purpose.toString();
+      const purposeName = req.query.purpose.toString();
+      const purpose = await mongoose
+        .model("Purpose")
+        .findOne({ value: purposeName })
+        .select("_id");
+
+      if (purpose) {
+        filter.purposeTag = { $in: [purpose._id] };
+      } else {
+        console.error(`Purpose not found: ${purposeName}`);
+      }
     }
 
     if (req.query.price) {
-      filter.price = req.query.price.toString();
+      const priceName = req.query.price.toString();
+      const price = await mongoose.model("Price").findOne({ value: priceName }).select("_id")
+      if (price) {
+        filter.priceTag = { $in: [price._id] };
+      }  else {
+        console.log(`Price not found: ${priceName}`);
+      }
     }
 
-    const distance = req.query.distance ? parseFloat(req.query.distance.toString()) : null;
+    const distance = req.query.distance
+      ? parseFloat(req.query.distance.toString())
+      : null;
     const userLat = req.query.lat ? parseFloat(req.query.lat.toString()) : null;
     const userLng = req.query.lng ? parseFloat(req.query.lng.toString()) : null;
 
@@ -62,8 +89,9 @@ export const GetAllStore = async (
 
     const recommendedStores = allStores.slice(skip, skip + limit);
     const relatedStores = allStores
-      .slice(skip + limit, skip + limit * 2)
-      .filter((store) => !recommendedStores.includes(store));
+      .filter((store) => !recommendedStores.includes(store))
+      .slice(0, limit)
+      .sort(() => Math.random() - 0.5);
 
     return res.status(200).json({
       message: "SUCCESS",
